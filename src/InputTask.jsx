@@ -23,12 +23,10 @@ const InputTask = ({ filteredTasks, setTasks }) => {
       <input value={inputText} onChange={handleChange} />
       <button onClick={handleClick}>Добавить</button>
       <br />
-      {error ? (
+      {error && (
         <p style={{ color: "red" }}>
           Строка не должна быть пустой или состоять только из пробелов
         </p>
-      ) : (
-        ""
       )}
     </>
   );
