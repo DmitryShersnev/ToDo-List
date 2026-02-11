@@ -17,20 +17,11 @@ function App() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  let filteredTasks = [];
-
-  const filterTasks = (filter) => {
-    if (filter === "all") {
-      filteredTasks = tasks;
-    } else if (filter === "active") {
-      filteredTasks = tasks.filter((item) => !item.isDone);
-    } else if (filter === "done") {
-      filteredTasks = tasks.filter((item) => item.isDone);
-    }
-    return filteredTasks;
-  };
-
-  filterTasks(filter);
+  const filteredTasks = tasks.filter((item) => {
+    if (filter === "all") return true;
+    if (filter === "active") return !item.isDone;
+    if (filter === "done") return item.isDone;
+  });
 
   const deleteTask = (id) => {
     setTasks((tasks) => tasks.filter((item) => item.id !== id));
@@ -61,6 +52,7 @@ function App() {
   return (
     <>
       <Header />
+
       <InputTask filteredTasks={filteredTasks} setTasks={setTasks} />
       <hr />
       <TasksList
