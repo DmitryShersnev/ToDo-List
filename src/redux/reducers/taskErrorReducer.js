@@ -1,18 +1,18 @@
 const initialTaskError = {
-  taskError: false,
+  errorTaskId: null,
 };
 
 const taskErrorReducer = (store = initialTaskError, action) => {
   switch (action.type) {
-    case "taskError":
+    case "setError":
       return {
         ...store,
-        taskError: true,
+        errorTaskId: action.payload.id,
       };
-    case "taskNotError":
+    case "clearError":
       return {
         ...store,
-        taskError: false,
+        errorTaskId: null,
       };
     default:
       return store;

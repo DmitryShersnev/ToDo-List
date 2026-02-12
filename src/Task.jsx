@@ -2,49 +2,59 @@ import { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 const Task = ({ item, deleteTask, changeCheckbox, changeTitle }) => {
-  const [isEdit, setIsEdit] = useState(false);
-  const [editText, setEditText] = useState(item.title);
-
   const inputRef = useRef(null);
 
-  const { taskError } = useSelector((store) => store.taskError);
+  const { errorTaskId } = useSelector((store) => store.errorTaskId);
+  const { editTaskId } = useSelector((store) => store.editTaskId);
+  const { editText } = useSelector((store) => store.editText);
+
+  const isEdit = editTaskId === item.id;
+  const showError = errorTaskId === item.id;
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isEdit) {
+      dispatch({ type: "initEditText", payload: item.title });
+      dispatch({ type: "clearError" });
+    }
+  }, [isEdit, item.title, dispatch]);
 
   useEffect(() => {
     if (!isEdit) return;
     const handleClickOutside = (event) => {
       if (inputRef.current && !inputRef.current.contains(event.target)) {
-        setIsEdit(false);
+        dispatch({ type: "stopEdit" });
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isEdit]);
+  }, [isEdit, dispatch]);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       if (editText.trim() !== "") {
         changeTitle(item.id, editText);
-        setIsEdit(false);
-        dispatch({ type: "taskError" });
+        dispatch({ type: "stopEdit" });
+        dispatch({ type: "clearError" });
       } else {
-        dispatch({ type: "taskNotError" });
+        dispatch({ type: "setError", payload: { id: item.id } });
       }
     }
     if (e.key === "Escape") {
-      setIsEdit(false);
+      dispatch({ type: "stopEdit" });
     }
   };
 
   const handleClick = () => {
     if (editText.trim() !== "") {
       changeTitle(item.id, editText);
-      setIsEdit(false);
-      dispatch({ type: "taskError" });
+      dispatch({ type: "stopEdit" });
+      dispatch({ type: "clearError" });
     } else {
-      dispatch({ type: "taskNotError" });
+      dispatch({ type: "setError", payload: { id: item.id } });
     }
   };
 
@@ -61,7 +71,9 @@ const Task = ({ item, deleteTask, changeCheckbox, changeTitle }) => {
             <div ref={inputRef}>
               <input
                 value={editText}
-                onChange={(e) => setEditText(e.target.value)}
+                onChange={(e) =>
+                  dispatch({ type: "changeEditText", payload: e.target.value })
+                }
                 onKeyDown={handleKeyDown}
               />{" "}
               <button onClick={handleClick}>💾</button>
@@ -70,13 +82,19 @@ const Task = ({ item, deleteTask, changeCheckbox, changeTitle }) => {
         ) : (
           <>
             <p className={item.isDone ? "checked" : ""}>{item.title}</p>
-            <button onClick={() => setIsEdit(true)}>🖊️</button>
+            <button
+              onClick={() => {
+                dispatch({ type: "startEdit", payload: { id: item.id } });
+              }}
+            >
+              🖊️
+            </button>
           </>
         )}
 
         <button onClick={() => deleteTask(item.id)}>❌</button>
       </div>
-      {taskError && (
+      {showError && (
         <p style={{ color: "red" }}>
           Строка не должна быть пустой или состоять только из пробелов
         </p>

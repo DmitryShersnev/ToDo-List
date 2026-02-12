@@ -38,6 +38,15 @@ const taskReducer = (store = initialTasks, action) => {
         ...store,
         tasks: store.tasks.filter((item) => item.isDone === false),
       };
+    case "addNewTask": {
+      const { id, newTitle } = action.payload;
+      return {
+        ...store,
+        tasks: store.tasks.map((item) =>
+          item.id === id ? { ...item, title: newTitle } : item,
+        ),
+      };
+    }
     default:
       return store;
   }

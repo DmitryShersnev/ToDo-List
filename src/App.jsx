@@ -6,7 +6,6 @@ import TasksList from "./TasksList";
 import Filtrarion from "./Filtration";
 import Cleaning from "./Cleaning";
 
-import store from "./redux/store";
 import { useSelector, useDispatch } from "react-redux";
 
 function App() {
@@ -29,11 +28,7 @@ function App() {
   };
 
   const changeTitle = (id, newTitle) => {
-    // setTasks((tasks) =>
-    //   tasks.map((item) =>
-    //     item.id === id ? { ...item, title: newTitle } : item,
-    //   ),
-    // );
+    dispatch({ type: "addNewTask", payload: { id, newTitle } });
   };
 
   const clearTasks = () => {
