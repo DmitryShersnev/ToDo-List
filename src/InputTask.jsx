@@ -1,21 +1,20 @@
-import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-const InputTask = ({ filteredTasks, setTasks }) => {
-  const [inputText, setInputText] = useState("");
-  const [error, setError] = useState(false);
+const InputTask = () => {
+  const { inputText } = useSelector((store) => store.inputText);
+  const { error } = useSelector((store) => store.inputError);
+
+  const dispatch = useDispatch();
   const handleChange = (e) => {
-    setInputText(e.target.value);
+    dispatch({ type: "change", payload: e.target.value });
   };
+
   const handleClick = () => {
     if (inputText.length === 0 || inputText.trim() === "") {
-      setError(true);
+      dispatch({ type: "error" });
     } else {
-      setTasks((filteredTasks) => [
-        ...filteredTasks,
-        { id: crypto.randomUUID(), title: inputText, isDone: false },
-      ]);
-      setInputText("");
-      setError(false);
+      dispatch({ type: "add", payload: inputText });
+      dispatch({ type: "notError" });
     }
   };
   return (

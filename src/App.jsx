@@ -1,21 +1,18 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+
 import Header from "./Header";
 import InputTask from "./InputTask";
 import TasksList from "./TasksList";
 import Filtrarion from "./Filtration";
 import Cleaning from "./Cleaning";
 
-function App() {
-  const [tasks, setTasks] = useState(() => {
-    const saved = localStorage.getItem("tasks");
-    return saved ? JSON.parse(saved) : [];
-  });
-  const [filter, setFilter] = useState("all");
+import store from "./redux/store";
+import { useSelector, useDispatch } from "react-redux";
 
-  useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
+function App() {
+  const { tasks } = useSelector((store) => store.tasks);
+  const { filter } = useSelector((store) => store.filter);
+  const dispatch = useDispatch();
 
   const filteredTasks = tasks.filter((item) => {
     if (filter === "all") return true;
@@ -24,27 +21,23 @@ function App() {
   });
 
   const deleteTask = (id) => {
-    setTasks((tasks) => tasks.filter((item) => item.id !== id));
+    dispatch({ type: "deleteTask", payload: { id } });
   };
 
   const changeCheckbox = (id) => {
-    setTasks((tasks) =>
-      tasks.map((item) =>
-        item.id === id ? { ...item, isDone: !item.isDone } : item,
-      ),
-    );
+    dispatch({ type: "changeCheckbox", payload: { id } });
   };
 
   const changeTitle = (id, newTitle) => {
-    setTasks((tasks) =>
-      tasks.map((item) =>
-        item.id === id ? { ...item, title: newTitle } : item,
-      ),
-    );
+    // setTasks((tasks) =>
+    //   tasks.map((item) =>
+    //     item.id === id ? { ...item, title: newTitle } : item,
+    //   ),
+    // );
   };
 
   const clearTasks = () => {
-    setTasks((tasks) => tasks.filter((item) => item.isDone === false));
+    dispatch({ type: "clearDoneTasks" });
   };
 
   const countOfActive = tasks.filter((item) => item.isDone === false).length;
@@ -53,7 +46,7 @@ function App() {
     <>
       <Header />
 
-      <InputTask filteredTasks={filteredTasks} setTasks={setTasks} />
+      <InputTask />
       <hr />
       <TasksList
         filteredTasks={filteredTasks}
@@ -62,7 +55,7 @@ function App() {
         changeTitle={changeTitle}
       />
       <hr />
-      <Filtrarion setFilter={setFilter} />
+      <Filtrarion />
       <hr />
       <Cleaning countOfActive={countOfActive} clearTasks={clearTasks} />
     </>

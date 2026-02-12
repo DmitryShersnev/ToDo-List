@@ -1,12 +1,15 @@
-const Filtrarion = ({ setFilter }) => {
+import { useDispatch } from "react-redux";
+
+const Filtrarion = () => {
+  const dispatch = useDispatch();
   const handleClickAll = () => {
-    setFilter("all");
+    dispatch({ type: "all" });
   };
   const handleClickActive = () => {
-    setFilter("active");
+    dispatch({ type: "active" });
   };
   const handleClickDone = () => {
-    setFilter("done");
+    dispatch({ type: "done" });
   };
   return (
     <>

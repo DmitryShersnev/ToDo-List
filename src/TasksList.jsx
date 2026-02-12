@@ -1,11 +1,10 @@
-import { useState } from "react";
 import Task from "./Task";
 
 const TasksList = ({
-  filteredTasks,
   deleteTask,
   changeCheckbox,
   changeTitle,
+  filteredTasks,
 }) => {
   return (
     <>

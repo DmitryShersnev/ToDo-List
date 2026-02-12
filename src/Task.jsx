@@ -1,10 +1,14 @@
 import { useState, useRef, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 const Task = ({ item, deleteTask, changeCheckbox, changeTitle }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [editText, setEditText] = useState(item.title);
-  const [error, setError] = useState(false);
+
   const inputRef = useRef(null);
+
+  const { taskError } = useSelector((store) => store.taskError);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!isEdit) return;
@@ -24,9 +28,9 @@ const Task = ({ item, deleteTask, changeCheckbox, changeTitle }) => {
       if (editText.trim() !== "") {
         changeTitle(item.id, editText);
         setIsEdit(false);
-        setError(false);
+        dispatch({ type: "taskError" });
       } else {
-        setError(true);
+        dispatch({ type: "taskNotError" });
       }
     }
     if (e.key === "Escape") {
@@ -38,9 +42,9 @@ const Task = ({ item, deleteTask, changeCheckbox, changeTitle }) => {
     if (editText.trim() !== "") {
       changeTitle(item.id, editText);
       setIsEdit(false);
-      setError(false);
+      dispatch({ type: "taskError" });
     } else {
-      setError(true);
+      dispatch({ type: "taskNotError" });
     }
   };
 
@@ -72,7 +76,7 @@ const Task = ({ item, deleteTask, changeCheckbox, changeTitle }) => {
 
         <button onClick={() => deleteTask(item.id)}>❌</button>
       </div>
-      {error && (
+      {taskError && (
         <p style={{ color: "red" }}>
           Строка не должна быть пустой или состоять только из пробелов
         </p>
