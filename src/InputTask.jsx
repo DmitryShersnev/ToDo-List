@@ -1,20 +1,24 @@
 import { useSelector, useDispatch } from "react-redux";
+import { change, clearInput } from "./redux/inputTextSlice";
+import { setInputError, clearInputError } from "./redux/inputErrorSlice";
+import { addTask } from "./redux/tasksSlice";
 
 const InputTask = () => {
   const { inputText } = useSelector((store) => store.inputText);
-  const { error } = useSelector((store) => store.inputError);
+  const { inputError } = useSelector((store) => store.inputError);
 
   const dispatch = useDispatch();
   const handleChange = (e) => {
-    dispatch({ type: "change", payload: e.target.value });
+    dispatch(change(e.target.value));
   };
 
   const handleClick = () => {
     if (inputText.length === 0 || inputText.trim() === "") {
-      dispatch({ type: "error" });
+      dispatch(setInputError());
     } else {
-      dispatch({ type: "add", payload: inputText });
-      dispatch({ type: "notError" });
+      dispatch(addTask(inputText));
+      dispatch(clearInputError());
+      dispatch(clearInput());
     }
   };
   return (
@@ -22,7 +26,7 @@ const InputTask = () => {
       <input value={inputText} onChange={handleChange} />
       <button onClick={handleClick}>Добавить</button>
       <br />
-      {error && (
+      {inputError && (
         <p style={{ color: "red" }}>
           Строка не должна быть пустой или состоять только из пробелов
         </p>

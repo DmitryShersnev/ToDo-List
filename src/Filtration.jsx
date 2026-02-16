@@ -1,15 +1,16 @@
 import { useDispatch } from "react-redux";
+import { all, active, done } from "./redux/filterSlice";
 
 const Filtrarion = () => {
   const dispatch = useDispatch();
   const handleClickAll = () => {
-    dispatch({ type: "all" });
+    dispatch(all());
   };
   const handleClickActive = () => {
-    dispatch({ type: "active" });
+    dispatch(active());
   };
   const handleClickDone = () => {
-    dispatch({ type: "done" });
+    dispatch(done());
   };
   return (
     <>

@@ -7,6 +7,11 @@ import Filtrarion from "./Filtration";
 import Cleaning from "./Cleaning";
 
 import { useSelector, useDispatch } from "react-redux";
+import {
+  changeStatusCheckbox,
+  deleteTaskAc,
+  clearDoneTasks,
+} from "./redux/tasksSlice";
 
 function App() {
   const { tasks } = useSelector((store) => store.tasks);
@@ -20,19 +25,15 @@ function App() {
   });
 
   const deleteTask = (id) => {
-    dispatch({ type: "deleteTask", payload: { id } });
+    dispatch(deleteTaskAc(id));
   };
 
   const changeCheckbox = (id) => {
-    dispatch({ type: "changeCheckbox", payload: { id } });
-  };
-
-  const changeTitle = (id, newTitle) => {
-    dispatch({ type: "addNewTask", payload: { id, newTitle } });
+    dispatch(changeStatusCheckbox(id));
   };
 
   const clearTasks = () => {
-    dispatch({ type: "clearDoneTasks" });
+    dispatch(clearDoneTasks());
   };
 
   const countOfActive = tasks.filter((item) => item.isDone === false).length;
@@ -47,7 +48,6 @@ function App() {
         filteredTasks={filteredTasks}
         deleteTask={deleteTask}
         changeCheckbox={changeCheckbox}
-        changeTitle={changeTitle}
       />
       <hr />
       <Filtrarion />

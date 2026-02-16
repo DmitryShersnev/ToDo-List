@@ -1,11 +1,6 @@
 import Task from "./Task";
 
-const TasksList = ({
-  deleteTask,
-  changeCheckbox,
-  changeTitle,
-  filteredTasks,
-}) => {
+const TasksList = ({ deleteTask, changeCheckbox, filteredTasks }) => {
   return (
     <>
       {filteredTasks.map((item) => (
@@ -14,7 +9,6 @@ const TasksList = ({
           item={item}
           deleteTask={deleteTask}
           changeCheckbox={changeCheckbox}
-          changeTitle={changeTitle}
         />
       ))}
     </>
