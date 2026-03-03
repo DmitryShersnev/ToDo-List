@@ -1,4 +1,4 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 
 import inputTextReducer from "./inputTextSlice";
 import inputErrorReducer from "./inputErrorSlice";
@@ -10,7 +10,7 @@ import editTextReducer from "./editTextSlice";
 import regLogReducer from "./regLogSlice";
 
 const store = configureStore({
-  reducer: combineReducers({
+  reducer: {
     inputText: inputTextReducer,
     tasks: tasksReducer,
     inputError: inputErrorReducer,
@@ -18,6 +18,7 @@ const store = configureStore({
     editTaskId: editReducer,
     errorTaskId: editTaskErrorReducer,
     editText: editTextReducer,
-  }),
+    regLog: regLogReducer,
+  },
 });
 export default store;

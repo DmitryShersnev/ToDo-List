@@ -23,8 +23,13 @@ const Login = () => {
       .required("Введите пароль"),
   });
 
-  const handleSubmit = (data) => {
-    dispatch(login({ data, navigate }));
+  const handleSubmit = async (data) => {
+    try {
+      await dispatch(login(data)).unwrap();
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
