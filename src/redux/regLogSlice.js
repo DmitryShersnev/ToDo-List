@@ -45,11 +45,12 @@ export const registration = createAsyncThunk(
       });
       const data = await response.json();
       if (!response.ok) {
-        console.log(data.message);
+        // console.log(data.message);
 
-        return thunkAPI.rejectWithValue(data.message);
+        return thunkAPI.rejectWithValue("Ошибка");
+      } else {
+        return data;
       }
-      return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -66,13 +67,15 @@ const regLogSlice = createSlice({
         console.log("Всё гуд");
       })
       .addCase(login.rejected, (state, action) => {
-        // console.log("rejected action:", action);
         alert(action.payload);
-      })
+      });
+    builder
       .addCase(registration.fulfilled, (state, action) => {
         alert("Вы успешно зарегистрировались. Теперь нужно залогиниться");
       })
       .addCase(registration.rejected, (state, action) => {
+        console.log(action);
+
         alert(action.payload);
       });
   },
