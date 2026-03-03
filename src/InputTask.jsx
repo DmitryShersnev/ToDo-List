@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { change, clearInput } from "./redux/inputTextSlice";
 import { setInputError, clearInputError } from "./redux/inputErrorSlice";
-import { addTask } from "./redux/tasksSlice";
+import { createTask } from "./redux/tasksSlice";
 
 const InputTask = () => {
   const { inputText } = useSelector((store) => store.inputText);
@@ -16,7 +16,7 @@ const InputTask = () => {
     if (inputText.length === 0 || inputText.trim() === "") {
       dispatch(setInputError());
     } else {
-      dispatch(addTask(inputText));
+      dispatch(createTask(inputText));
       dispatch(clearInputError());
       dispatch(clearInput());
     }

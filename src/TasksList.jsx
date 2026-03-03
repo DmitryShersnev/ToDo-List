@@ -1,15 +1,10 @@
 import Task from "./Task";
 
-const TasksList = ({ deleteTask, changeCheckbox, filteredTasks }) => {
+const TasksList = ({ filteredTasks }) => {
   return (
     <>
       {filteredTasks.map((item) => (
-        <Task
-          key={item.id}
-          item={item}
-          deleteTask={deleteTask}
-          changeCheckbox={changeCheckbox}
-        />
+        <Task key={item.id} item={item} />
       ))}
     </>
   );

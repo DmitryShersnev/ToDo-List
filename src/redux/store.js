@@ -7,6 +7,7 @@ import filterReducer from "./filterSlice";
 import editReducer from "./editSlice";
 import editTaskErrorReducer from "./editTaskErrorSlice";
 import editTextReducer from "./editTextSlice";
+import regLogReducer from "./regLogSlice";
 
 const store = configureStore({
   reducer: combineReducers({
@@ -16,7 +17,6 @@ const store = configureStore({
     filter: filterReducer,
     editTaskId: editReducer,
     errorTaskId: editTaskErrorReducer,
-
     editText: editTextReducer,
   }),
 });

@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { startEdit, stopEdit } from "./redux/editSlice";
 import { setError, clearError } from "./redux/editTaskErrorSlice";
 import { initEditText, changeEditText } from "./redux/editTextSlice";
-import { addNewTask } from "./redux/tasksSlice";
+import { deleteTask, changeCheckbox, updateTask } from "./redux/tasksSlice";
 
-const Task = ({ item, deleteTask, changeCheckbox }) => {
+const Task = ({ item }) => {
   const inputRef = useRef(null);
   const { editTaskId } = useSelector((store) => store.editTaskId);
 
@@ -37,14 +37,11 @@ const Task = ({ item, deleteTask, changeCheckbox }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isEdit, dispatch]);
-  const changeTitle = (id, newTitle) => {
-    dispatch(addNewTask({ id, newTitle }));
-  };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       if (editText.trim() !== "") {
-        changeTitle(item.id, editText);
+        dispatch(updateTask([item.id, editText]));
         dispatch(stopEdit());
         dispatch(clearError());
       } else {
@@ -58,7 +55,7 @@ const Task = ({ item, deleteTask, changeCheckbox }) => {
 
   const handleClick = () => {
     if (editText.trim() !== "") {
-      changeTitle(item.id, editText);
+      dispatch(updateTask([item.id, editText]));
       dispatch(stopEdit());
       dispatch(clearError());
     } else {
@@ -71,8 +68,8 @@ const Task = ({ item, deleteTask, changeCheckbox }) => {
       <div className="task">
         <input
           type="checkbox"
-          checked={item.isDone}
-          onChange={() => changeCheckbox(item.id)}
+          checked={item.isCompleted}
+          onChange={() => dispatch(changeCheckbox(item.id))}
         />
         {isEdit ? (
           <>
@@ -87,7 +84,7 @@ const Task = ({ item, deleteTask, changeCheckbox }) => {
           </>
         ) : (
           <>
-            <p className={item.isDone ? "checked" : ""}>{item.title}</p>
+            <p className={item.isCompleted ? "checked" : ""}>{item.title}</p>
             <button
               onClick={() => {
                 dispatch(startEdit(item.id));
@@ -98,7 +95,7 @@ const Task = ({ item, deleteTask, changeCheckbox }) => {
           </>
         )}
 
-        <button onClick={() => deleteTask(item.id)}>❌</button>
+        <button onClick={() => dispatch(deleteTask(item.id))}>❌</button>
       </div>
       {showError && (
         <p style={{ color: "red" }}>

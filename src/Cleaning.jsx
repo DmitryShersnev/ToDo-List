@@ -1,8 +1,15 @@
-const Cleaning = ({ countOfActive, clearTasks }) => {
+import { deleteDoneTasks } from "./redux/tasksSlice";
+import { useDispatch } from "react-redux";
+
+const Cleaning = ({ countOfActive }) => {
+  const dispatch = useDispatch();
+
   return (
     <div className="cleaning">
       <p>Осталось дел: {countOfActive} </p>
-      <button onClick={() => clearTasks()}>Удалить выполненные</button>
+      <button onClick={() => dispatch(deleteDoneTasks())}>
+        Удалить выполненные
+      </button>
     </div>
   );
 };
