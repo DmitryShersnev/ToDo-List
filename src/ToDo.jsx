@@ -32,6 +32,11 @@ function ToDo() {
     (item) => item.isCompleted === false,
   ).length;
 
+  const handleClick = () => {
+    localStorage.removeItem("token");
+    navigate(0);
+  };
+
   return (
     <>
       <Header />
@@ -44,14 +49,7 @@ function ToDo() {
       <Filtrarion />
       <hr />
       <Cleaning countOfActive={countOfActive} />
-      <button
-        onClick={() => {
-          localStorage.removeItem("token");
-          navigate(0);
-        }}
-      >
-        Разлогиниться
-      </button>
+      <button onClick={() => handleClick()}>Разлогиниться</button>
     </>
   );
 }
