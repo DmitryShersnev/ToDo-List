@@ -136,6 +136,10 @@ const tasksSlice = createSlice({
   name: "tasks",
   initialState,
   reducers: {},
+  selectors: {
+    selectTasks: (state) => state.tasks,
+    selectLoading: (state) => state.loading,
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getTasks.fulfilled, (state, action) => {
@@ -196,3 +200,4 @@ const tasksSlice = createSlice({
 });
 
 export default tasksSlice.reducer;
+export const { selectTasks, selectLoading } = tasksSlice.selectors;

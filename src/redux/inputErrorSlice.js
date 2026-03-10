@@ -14,7 +14,11 @@ const inputErrorSlice = createSlice({
       state.inputError = false;
     },
   },
+  selectors: {
+    selectInputError: (state) => state.inputError,
+  },
 });
 
 export const { setInputError, clearInputError } = inputErrorSlice.actions;
 export default inputErrorSlice.reducer;
+export const { selectInputError } = inputErrorSlice.selectors;

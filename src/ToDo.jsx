@@ -6,13 +6,14 @@ import Cleaning from "./Cleaning";
 import { getTasks } from "./redux/tasksSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-
 import { useSelector, useDispatch } from "react-redux";
+import { selectTasks, selectLoading } from "./redux/tasksSlice";
+import { selectFilter } from "./redux/filterSlice";
 
 function ToDo() {
-  const { tasks, loading } = useSelector((store) => store.tasks);
-
-  const { filter } = useSelector((store) => store.filter);
+  const tasks = useSelector(selectTasks);
+  const loading = useSelector(selectLoading);
+  const filter = useSelector(selectFilter);
 
   const navigate = useNavigate();
 

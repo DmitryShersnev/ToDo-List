@@ -4,7 +4,7 @@ const initialState = {
 };
 
 const editTaskErrorSlice = createSlice({
-  name: "editError",
+  name: "errorTaskId",
   initialState,
   reducers: {
     setError: (state, action) => {
@@ -14,7 +14,11 @@ const editTaskErrorSlice = createSlice({
       state.errorTaskId = null;
     },
   },
+  selectors: {
+    selectErrorTaskId: (state) => state.errorTaskId,
+  },
 });
 
 export const { setError, clearError } = editTaskErrorSlice.actions;
 export default editTaskErrorSlice.reducer;
+export const { selectErrorTaskId } = editTaskErrorSlice.selectors;

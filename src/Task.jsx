@@ -4,14 +4,19 @@ import { startEdit, stopEdit } from "./redux/editSlice";
 import { setError, clearError } from "./redux/editTaskErrorSlice";
 import { initEditText, changeEditText } from "./redux/editTextSlice";
 import { deleteTask, changeCheckbox, updateTask } from "./redux/tasksSlice";
+import { selectEditText } from "./redux/editTextSlice";
+import { selectEditTaskId } from "./redux/editSlice";
+import { selectErrorTaskId } from "./redux/editTaskErrorSlice";
 
 const Task = ({ item }) => {
   const inputRef = useRef(null);
-  const { editTaskId } = useSelector((store) => store.editTaskId);
 
-  const { errorTaskId } = useSelector((store) => store.errorTaskId);
+  const editTaskId = useSelector(selectEditTaskId);
 
-  const { editText } = useSelector((store) => store.editText);
+  const errorTaskId = useSelector(selectErrorTaskId);
+
+  const editText = useSelector(selectEditText);
+  console.log(editText);
 
   const isEdit = editTaskId === item.id;
   const showError = errorTaskId === item.id;

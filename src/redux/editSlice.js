@@ -4,7 +4,7 @@ const initialState = {
 };
 
 const editSlice = createSlice({
-  name: "edit",
+  name: "editTaskId",
   initialState,
   reducers: {
     startEdit: (state, action) => {
@@ -14,7 +14,11 @@ const editSlice = createSlice({
       state.editTaskId = null;
     },
   },
+  selectors: {
+    selectEditTaskId: (state) => state.editTaskId,
+  },
 });
 
 export const { startEdit, stopEdit } = editSlice.actions;
 export default editSlice.reducer;
+export const { selectEditTaskId } = editSlice.selectors;

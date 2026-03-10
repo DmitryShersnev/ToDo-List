@@ -2,10 +2,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { change, clearInput } from "./redux/inputTextSlice";
 import { setInputError, clearInputError } from "./redux/inputErrorSlice";
 import { createTask } from "./redux/tasksSlice";
+import { selectInputText } from "./redux/inputTextSlice";
+import { selectInputError } from "./redux/inputErrorSlice";
 
 const InputTask = () => {
-  const { inputText } = useSelector((store) => store.inputText);
-  const { inputError } = useSelector((store) => store.inputError);
+  const inputText = useSelector(selectInputText);
+  const inputError = useSelector(selectInputError);
 
   const dispatch = useDispatch();
   const handleChange = (e) => {

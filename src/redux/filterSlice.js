@@ -17,7 +17,11 @@ const filterSlice = createSlice({
       state.filter = "done";
     },
   },
+  selectors: {
+    selectFilter: (state) => state.filter,
+  },
 });
 
 export const { all, active, done } = filterSlice.actions;
 export default filterSlice.reducer;
+export const { selectFilter } = filterSlice.selectors;

@@ -14,7 +14,11 @@ const editTextSlice = createSlice({
       state.editText = action.payload;
     },
   },
+  selectors: {
+    selectEditText: (state) => state.editText,
+  },
 });
 
 export const { initEditText, changeEditText } = editTextSlice.actions;
 export default editTextSlice.reducer;
+export const { selectEditText } = editTextSlice.selectors;

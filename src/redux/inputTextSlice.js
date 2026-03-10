@@ -14,7 +14,11 @@ const inputTextSlice = createSlice({
       state.inputText = "";
     },
   },
+  selectors: {
+    selectInputText: (state) => state.inputText,
+  },
 });
 
 export const { change, clearInput } = inputTextSlice.actions;
 export default inputTextSlice.reducer;
+export const { selectInputText } = inputTextSlice.selectors;
